@@ -20,10 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProductController {
 
+	 //@Autowired
+	 private ProductService productService;
+	
+	//public String source = "file";
+	
 	@Autowired
-	private ProductService productService;
-	
-	
+	public ProductController( ProductService productService) {	//ProductService productService) {
+		this.productService= productService;
+		//this.productService.source = "File";
+		System.out.println("In PC constructor");
+	}
+	 
 	
 	@Secured({"ROLE_USER","ROLE_ADMIN","ROLE_MGMT"})
 	@RequestMapping(method = RequestMethod.GET,value="/product")				// Get All Contact
@@ -35,8 +43,8 @@ public class ProductController {
 			return response2;
 		} catch (Exception e) {
 			Response<String, String> response1 =new Response<String, String>();
-			response1.setData("Somthing Went Wrong");
-			response1.setMessage( "Failed");
+			response1.setData("Somthing Went Wrong "+e.getMessage());
+			response1.setMessage(e.getLocalizedMessage());
 			return response1;
 		}
 		

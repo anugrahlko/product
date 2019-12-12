@@ -1,10 +1,5 @@
 package com.product.in.nfo;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-
-
 public class Response<T,U> {
 
 	private T data;
