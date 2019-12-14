@@ -5,16 +5,38 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
+	
+	//@Autowired
+	private ProductRepository productRepository ;
+	
+	//@Autowired
+	//private ProductRepository productDBRepository;
+	//@Autowired
+	private ProductFileRepository productFileRepository;
+	
+	
 	@Autowired
-	private ProductRepository productRepository;
+	public ProductService( ProductFileRepository productFileRepository,ProductRepository productRepository) {
+		System.out.println(source);
+		if(source.equalsIgnoreCase("file")) {
+			this.productRepository = productFileRepository;
+		}
+		else {
+			this.productRepository = productRepository;
+		}
+	}
+	
+	public static String source="file";
 
 	public List<Product> getAllProduct() {
+		
 		List<Product> product = new ArrayList<Product>() ;
 		productRepository.findAll().forEach(product::add);
 		return product;
@@ -56,7 +78,5 @@ public class ProductService {
 		productRepository.delete(currentProduct);
 		return "Deleted";
 	}
-	
-	
 
 }
